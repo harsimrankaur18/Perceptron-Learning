@@ -1,19 +1,8 @@
 # Python version--3.6.0
-# All the input values are hard-coded. The files needs to be read.
 # Import Libraries
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-
-
-# Add Vectors
-def addVectors(a, b):
-    result = np.zeros((len(a),), dtype=np.int)
-    # both a and b are 1D vectors of same length
-    for i in range(len(a)):
-        result[i] = a[i] + b[i]
-    # print(result)
-    return result
 
 
 # Plot Mistakes
@@ -32,7 +21,7 @@ def perceptron(X, y, b, w, max_passes, mistakes_arr):
         for j in range(len(X)):
             if y[j] * (np.dot(X[j], w) + b) <= 0:
                 # Mistake
-                w = addVectors(w, y[j] * X[j])
+                w = w + (y[j] * X[j])
                 b = b + y[j]
                 mistakes = mistakes + 1
         mistakes_arr[i - 1] = mistakes
@@ -42,8 +31,7 @@ def perceptron(X, y, b, w, max_passes, mistakes_arr):
 
 def main():
     # input
-    X = pd.read_csv("spambase_X.csv", header=None).values
-    X = np.transpose(X)
+    X = pd.read_csv("spambase_X.csv", header=None).values.T
     # labels
     y = pd.read_csv("spambase_y.csv", header=None)
     y = np.ravel(y)
